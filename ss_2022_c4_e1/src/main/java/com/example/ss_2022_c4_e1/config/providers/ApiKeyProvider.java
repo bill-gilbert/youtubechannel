@@ -10,20 +10,20 @@ import org.springframework.security.core.AuthenticationException;
 @AllArgsConstructor
 public class ApiKeyProvider implements AuthenticationProvider {
 
-  private final String key;
+    private final String key;
 
-  @Override
-  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-    ApiKeyAuthentication auth = (ApiKeyAuthentication) authentication;
-    if (key.equals(auth.getKey())) {
-      auth.setAuthenticated(true);
-      return auth;
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        ApiKeyAuthentication auth = (ApiKeyAuthentication) authentication;
+        if (key.equals(auth.getKey())) {
+            auth.setAuthenticated(true);
+            return auth;
+        }
+        throw new BadCredentialsException(":(");
     }
-    throw new BadCredentialsException(":(");
-  }
 
-  @Override
-  public boolean supports(Class<?> authentication) {
-    return ApiKeyAuthentication.class.equals(authentication);
-  }
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return ApiKeyAuthentication.class.equals(authentication);
+    }
 }

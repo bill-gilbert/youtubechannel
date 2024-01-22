@@ -9,15 +9,15 @@ import org.springframework.security.core.AuthenticationException;
 @AllArgsConstructor
 public class CustomAuthenticationManager implements AuthenticationManager {
 
-  private final String key;
+    private final String key;
 
-  @Override
-  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-    var provider = new ApiKeyProvider(key);
-    if (provider.supports(authentication.getClass())) {
-      return provider.authenticate(authentication);
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        var provider = new ApiKeyProvider(key);
+        if (provider.supports(authentication.getClass())) {
+            return provider.authenticate(authentication);
+        }
+
+        return authentication;
     }
-
-    return authentication;
-  }
 }

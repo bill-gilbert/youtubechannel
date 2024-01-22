@@ -11,17 +11,17 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 public class SecurityConfig {
 
-  @Value("${the.secret}")
-  private String key;
+    @Value("${the.secret}")
+    private String key;
 
-  @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http.httpBasic()
-          .and()
-          .addFilterBefore(new ApiKeyFilter(key), BasicAuthenticationFilter.class)
-        .authorizeRequests().anyRequest().authenticated()   // authorization
-        //.and().authenticationManager()   or  by adding a bean of type AuthenticationManager
-        //.and().authenticationProvider() it doesn't override the AP, it adds one more to the collection
-        .and().build();
-  }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.httpBasic()
+                .and()
+                .addFilterBefore(new ApiKeyFilter(key), BasicAuthenticationFilter.class)
+                .authorizeRequests().anyRequest().authenticated()   // authorization
+                //.and().authenticationManager()   or  by adding a bean of type AuthenticationManager
+                //.and().authenticationProvider() it doesn't override the AP, it adds one more to the collection
+                .and().build();
+    }
 }
