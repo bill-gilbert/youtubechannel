@@ -20,11 +20,11 @@ public class SecurityConfig {
         .authorizeRequests()
             //.anyRequest().authenticated()  // endpoint level authorization
             //        .anyRequest().permitAll()
-        .anyRequest().denyAll()
-//        .anyRequest().hasAuthority("read")
+            //.anyRequest().denyAll()
+        //.anyRequest().hasAuthority("read")
 //        .anyRequest().hasAnyAuthority("read", "write")
-//        .anyRequest().hasRole("ADMIN")
-//        .anyRequest().hasAnyRole("ADMIN", "MANAGER")
+        //.anyRequest().hasRole("ADMIN")
+        .anyRequest().hasAnyRole("ADMIN", "MANAGER")
 //        .anyRequest().access("isAuthenticated() and hasAuthority('read')")  // SpEL  --> authorization rules
 
             //        .mvcMatchers("/demo").hasAuthority("read")
@@ -43,14 +43,14 @@ public class SecurityConfig {
 
     var u1 = User.withUsername("bill")
         .password(passwordEncoder().encode("12345"))
-//        .roles("ADMIN")  // equivalent with and authority named ROLE_ADMIN
-        .authorities("read")
+        .roles("ADMIN")  // equivalent with and authority named ROLE_ADMIN
+//        .authorities("read")
         .build();
 
     var u2 = User.withUsername("john")
         .password(passwordEncoder().encode("12345"))
-//        .roles("MANAGER")
-        .authorities("write")
+        .roles("MANAGER")
+//        .authorities("write")
         .build();
 
     uds.createUser(u1);
