@@ -18,16 +18,17 @@ public class SecurityConfig {
     return http.httpBasic()
         .and()
         .authorizeRequests()
-//            .anyRequest().authenticated()  // endpoint level authorization
-//        .anyRequest().permitAll()
-//        .anyRequest().denyAll()
+            //.anyRequest().authenticated()  // endpoint level authorization
+            //        .anyRequest().permitAll()
+        .anyRequest().denyAll()
 //        .anyRequest().hasAuthority("read")
 //        .anyRequest().hasAnyAuthority("read", "write")
 //        .anyRequest().hasRole("ADMIN")
 //        .anyRequest().hasAnyRole("ADMIN", "MANAGER")
 //        .anyRequest().access("isAuthenticated() and hasAuthority('read')")  // SpEL  --> authorization rules
-        .mvcMatchers("/demo").hasAuthority("read")
-        .anyRequest().authenticated()
+
+            //        .mvcMatchers("/demo").hasAuthority("read")
+        //.anyRequest().authenticated()
         .and().build();
 
 
