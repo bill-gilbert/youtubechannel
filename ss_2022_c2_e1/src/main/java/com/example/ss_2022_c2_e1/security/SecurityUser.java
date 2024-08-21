@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -30,7 +29,7 @@ public class SecurityUser implements UserDetails {
     return user.getAuthorities()
         .stream()
         .map(SecurityAuthority::new)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
