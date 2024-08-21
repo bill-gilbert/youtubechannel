@@ -2,12 +2,14 @@ package com.example.ss_2022_c2_e1.security;
 
 import com.example.ss_2022_c2_e1.entities.User;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Data
 @AllArgsConstructor
 public class SecurityUser implements UserDetails {
 
