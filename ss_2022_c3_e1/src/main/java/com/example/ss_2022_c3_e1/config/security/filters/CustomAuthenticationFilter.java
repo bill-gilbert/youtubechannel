@@ -30,7 +30,7 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
     String key = String.valueOf(request.getHeader("key"));
     CustomAuthentication ca = new CustomAuthentication(false, key);
 
-    try {
+  try {
 
       var a = customAuthenticationManager.authenticate(ca);
       if (a.isAuthenticated()) {
