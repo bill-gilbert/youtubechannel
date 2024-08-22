@@ -30,11 +30,17 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
     String key = String.valueOf(request.getHeader("key"));
     CustomAuthentication ca = new CustomAuthentication(false, key);
 
-    var a = customAuthenticationManager.authenticate(ca);
+    try {
 
-    if (a.isAuthenticated()) {
-      SecurityContextHolder.getContext().setAuthentication(a);
-      filterChain.doFilter(request, response); // only when authentication worked
+      var a = customAuthenticationManager.authenticate(ca);
+      if (a.isAuthenticated()) {
+        SecurityContextHolder.getContext().setAuthentication(a);
+        filterChain.doFilter(request, response); // only when authentication worked
+      }
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
+
   }
 }
