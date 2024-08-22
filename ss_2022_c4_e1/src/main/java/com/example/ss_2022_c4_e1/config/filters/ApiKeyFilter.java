@@ -25,6 +25,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
 
         var requestKey = request.getHeader("x-api-key");
 
+        // if user prefer other auth method approach
         if (requestKey == null || "null".equals(requestKey)) {
             filterChain.doFilter(request, response);
         }
