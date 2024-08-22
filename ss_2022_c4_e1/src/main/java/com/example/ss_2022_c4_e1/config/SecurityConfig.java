@@ -19,10 +19,9 @@ public class SecurityConfig {
         return http.httpBasic()
                 .and()
                 .addFilterBefore(new ApiKeyFilter(key), BasicAuthenticationFilter.class)
-                //.authorizeRequests().anyRequest().authenticated()   // authorization
+                .authorizeRequests().anyRequest().authenticated()   // authorization
                 //.and().authenticationManager()   or  by adding a bean of type AuthenticationManager
                 //.and().authenticationProvider() it doesn't override the AP, it adds one more to the collection
-                //.and()
-                .build();
+                .and().build();
     }
 }
