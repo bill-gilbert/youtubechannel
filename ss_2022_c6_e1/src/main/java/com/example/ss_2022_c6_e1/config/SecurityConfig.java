@@ -40,16 +40,31 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    /**
+     TEST 1
+     */
+    /*
+    return http.httpBasic()
+            .and()
+            .authorizeRequests()
+//        .mvcMatchers(HttpMethod.GET,"/demo/**").hasAuthority("read")   /// find ANT expressions  /**
+//        .anyRequest().authenticated()
+            .mvcMatchers("/test/test1").authenticated()
+//        .regexMatchers("regex").authenticated()
+            .anyRequest().permitAll()
+            .and().csrf().disable()     // DON'T DO THIS IN READ-WORLD APPS
+            .build();
+
+    */
+
     return http.httpBasic()
         .and()
         .authorizeRequests()
-//        .mvcMatchers(HttpMethod.GET,"/demo/**").hasAuthority("read")   /// find ANT expressions  /**
-//        .anyRequest().authenticated()
         .mvcMatchers("/test/test1").authenticated()
+            .mvcMatchers("/test/test2").hasAuthority("read")
 //        .regexMatchers("regex").authenticated()
-        .anyRequest().permitAll()
-        .and().csrf().disable()     // DON'T DO THIS IN READ-WORLD APPS
-        .build();
+       .and()
+       .build();
   }
 
   // /demo/anything/*/something   ---> /demo/anything/abc/something

@@ -13,54 +13,60 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-  @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http.httpBasic()
-        .and()
-        .authorizeRequests()
-            //.anyRequest().authenticated()  // endpoint level authorization
-            //        .anyRequest().permitAll()
-            //.anyRequest().denyAll()
-        //.anyRequest().hasAuthority("read")
-//        .anyRequest().hasAnyAuthority("read", "write")
-        //.anyRequest().hasRole("ADMIN")
-        .anyRequest().hasAnyRole("ADMIN", "MANAGER")
-//        .anyRequest().access("isAuthenticated() and hasAuthority('read')")  // SpEL  --> authorization rules
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.httpBasic()
+                .and()
+                .authorizeRequests()
+                //Only for authorized users
+                // .anyRequest().authenticated()  // endpoint level authorization
+                //Allow any request
+                // .anyRequest().permitAll()
+                //Deny all request
+                // .anyRequest().denyAll()
+                // One authority
+                //       .anyRequest().hasAuthority("read")
+                // several authorities
+                // .anyRequest().hasAnyAuthority("read", "write")
+                //.anyRequest().hasRole("ADMIN")
+                //.anyRequest().hasAnyRole("ADMIN", "MANAGER")
+                // Added SpEL languages check
+                // .anyRequest().access("isAuthenticated() and hasAuthority('read')")  // SpEL  --> authorization rules
+                //Ant matchers and MVC Matchers
+                .mvcMatchers("/demo").hasAuthority("read")
+                .anyRequest().authenticated()
+                .and().build();
 
-            //        .mvcMatchers("/demo").hasAuthority("read")
-        //.anyRequest().authenticated()
-        .and().build();
 
+        // matcher method + authorization rule
+        // 1. which matcher methods should you use and how  ( anyRequest(), mvcMatchers(), antMatchers(), regexMatchers() )
+        // 2. how to apply different authorization rules
+    }
 
-    // matcher method + authorization rule
-    // 1. which matcher methods should you use and how  ( anyRequest(), mvcMatchers(), antMatchers(), regexMatchers() )
-    // 2. how to apply different authorization rules
-  }
+    @Bean
+    public UserDetailsService userDetailsService() {
+        var uds = new InMemoryUserDetailsManager();
 
-  @Bean
-  public UserDetailsService userDetailsService() {
-    var uds = new InMemoryUserDetailsManager();
+        var u1 = User.withUsername("bill")
+                .password(passwordEncoder().encode("12345"))
+                .roles("ADMIN")  // equivalent with and authority named ROLE_ADMIN
+                .authorities("read")
+                .build();
 
-    var u1 = User.withUsername("bill")
-        .password(passwordEncoder().encode("12345"))
-        .roles("ADMIN")  // equivalent with and authority named ROLE_ADMIN
-//        .authorities("read")
-        .build();
+        var u2 = User.withUsername("john")
+                .password(passwordEncoder().encode("12345"))
+                .roles("MANAGER")
+                .authorities("write")
+                .build();
 
-    var u2 = User.withUsername("john")
-        .password(passwordEncoder().encode("12345"))
-        .roles("MANAGER")
-//        .authorities("write")
-        .build();
+        uds.createUser(u1);
+        uds.createUser(u2);
 
-    uds.createUser(u1);
-    uds.createUser(u2);
+        return uds;
+    }
 
-    return uds;
-  }
-
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
