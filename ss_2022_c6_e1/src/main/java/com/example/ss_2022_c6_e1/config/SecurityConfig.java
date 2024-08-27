@@ -57,14 +57,45 @@ public class SecurityConfig {
 
     */
 
+    //TEST 2
+    /*
     return http.httpBasic()
         .and()
         .authorizeRequests()
-        .mvcMatchers("/test/test1").authenticated()
-            .mvcMatchers("/test/test2").hasAuthority("read")
+        .mvcMatchers(HttpMethod.GET,"/demo/**").hasAuthority("read")
+        .anyRequest().authenticated()
+
+
+         .and().csrf().disable()     // DON'T DO THIS IN READ-WORLD APPS
 //        .regexMatchers("regex").authenticated()
-       .and()
        .build();
+
+     */
+
+    // TEST 3
+    /*
+    return http.httpBasic()
+            .and()
+            .authorizeRequests()
+            .mvcMatchers("/test/test1").authenticated()
+            .anyRequest().permitAll()
+
+            .and().csrf().disable()     // DON'T DO THIS IN READ-WORLD APPS
+//        .regexMatchers("regex").authenticated()
+            .build();
+
+     */
+    return http.httpBasic()
+            .and()
+            .authorizeRequests()
+            .mvcMatchers("/test/test1").authenticated()
+
+            .anyRequest().permitAll()
+
+            .and().csrf().disable()     // DON'T DO THIS IN READ-WORLD APPS
+//        .regexMatchers("regex").authenticated()
+            .build();
+
   }
 
   // /demo/anything/*/something   ---> /demo/anything/abc/something
