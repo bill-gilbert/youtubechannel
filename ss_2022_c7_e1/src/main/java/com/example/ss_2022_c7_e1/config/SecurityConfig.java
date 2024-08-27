@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.List;
+
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 // @PreAuthorize @PostAuthorize @PreFilter @PostFilter
@@ -37,16 +39,11 @@ public class SecurityConfig {
         .authorities("write")
         .build();
 
-    InMemoryUserDetailsManager uds = new InMemoryUserDetailsManager();
-
-    uds.createUser(u1);
-    uds.createUser(u2);
-
-    return uds;
+    return new InMemoryUserDetailsManager(List.of(u1, u2));
   }
 
   @Bean
   public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();  // NoOpPasswordEncoder ---> marked as deprecated beacause you can ONLY use it in demos.
+    return new BCryptPasswordEncoder();  // NoOpPasswordEncoder ---> marked as deprecated because you can ONLY use it in demos.
   }
 }
