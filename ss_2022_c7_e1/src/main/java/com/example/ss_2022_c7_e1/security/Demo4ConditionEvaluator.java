@@ -8,7 +8,7 @@ public class Demo4ConditionEvaluator {
 
   public boolean condition() {
     var a = SecurityContextHolder.getContext().getAuthentication();
-    return false;  // your complex authorization condition
+    return true;  // your complex authorization condition
   }
 
 }
