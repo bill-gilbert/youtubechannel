@@ -51,7 +51,7 @@ public class DemoController {
   // @PostAuthorize
 
   @GetMapping("/demo5")
-  @PostAuthorize("returnObject != 'Demo 5'")  // is mainly used when we want to restrict the access to some returned value
+  @PostAuthorize("returnObject == 'Demo 5'")  // is mainly used when we want to restrict the access to some returned value
   public String demo5() {
     System.out.println(":)");  // never use @PostAuthorize with methods that change data
     return "Demo 5";
