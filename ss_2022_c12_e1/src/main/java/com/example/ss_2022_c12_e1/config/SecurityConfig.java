@@ -152,9 +152,7 @@ public class SecurityConfig {
 
   @Bean
   public OAuth2TokenCustomizer<JwtEncodingContext> oAuth2TokenCustomizer() {
-    return  context -> {
-      context.getClaims().claim("test", "test");
-    };
+    return  context -> context.getClaims().claim("test", "test");
   }
 
 }
